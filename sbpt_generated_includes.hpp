@@ -1,0 +1,1 @@
+#include "../temporal_binary_signal/temporal_binary_signal.hpp"
