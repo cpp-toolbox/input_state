@@ -176,6 +176,8 @@ class InputState {
     bool is_just_pressed(EKey key_enum);
     bool is_pressed(EKey key_enum);
 
+    std::vector<std::string> get_just_pressed_key_strings();
+
     std::string get_string_state();
 
     std::vector<Key> all_keys;
