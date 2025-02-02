@@ -129,6 +129,23 @@ std::string InputState::get_string_state() {
     return state_stream.str();
 }
 
+std::vector<std::string> InputState::get_just_pressed_key_strings() {
+    std::vector<std::string> keys_just_pressed_this_tick;
+    for (const auto &key : all_keys) {
+        bool char_is_printable =
+            key.key_type == KeyType::ALPHA or key.key_type == KeyType::SYMBOL or key.key_type == KeyType::NUMERIC;
+        if (char_is_printable and key.pressed_signal.is_just_on()) {
+            std::string key_str = key.string_repr;
+            if (key.shiftable and key_enum_to_object.at(EKey::LEFT_SHIFT)->pressed_signal.is_on()) {
+                Key shifted_key = *key_enum_to_object.at(key.key_enum_of_shifted_version);
+                key_str = shifted_key.string_repr;
+            }
+            keys_just_pressed_this_tick.push_back(key_str);
+        }
+    }
+    return keys_just_pressed_this_tick;
+}
+
 bool InputState::is_just_pressed(EKey key_enum) { return key_enum_to_object.at(key_enum)->pressed_signal.is_just_on(); }
 bool InputState::is_pressed(EKey key_enum) { return key_enum_to_object.at(key_enum)->pressed_signal.is_on(); }
 
@@ -156,6 +173,7 @@ InputState::InputState() {
     // this line looks trivial but is extremely important, if not the way temporary objects are copied
     // will make it so that the temporal binary states are destroyed making it so that they're not processed anymore
     // horrible bug, so keep this line, using 500 for overkill but I don't like counting.
+    // now i don't think i need to do tis because the rule of 5
     this->all_keys.reserve(500);
     all_keys.emplace_back(EKey::a, KeyType::ALPHA, GLFW_KEY_A, "a", false, true, EKey::A);
     all_keys.emplace_back(EKey::b, KeyType::ALPHA, GLFW_KEY_B, "b", false, true, EKey::B);
