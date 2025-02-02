@@ -177,6 +177,7 @@ class InputState {
     bool is_pressed(EKey key_enum);
 
     std::string get_string_state();
+    std::vector<std::string> get_keys_just_pressed_this_tick();
 
     std::vector<Key> all_keys;
     std::set<int> glfw_keycodes;
