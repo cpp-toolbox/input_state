@@ -340,3 +340,20 @@ InputState::InputState() {
         }
     }
 }
+
+void InputState::glfw_key_callback(int key, int scancode, int action, int mods) {
+    if (action == GLFW_PRESS || action == GLFW_RELEASE) {
+        Key &active_key = *glfw_code_to_key.at(key);
+        bool is_pressed = (action == GLFW_PRESS);
+        active_key.pressed_signal.set_signal(is_pressed);
+    }
+}
+
+void InputState::glfw_mouse_button_callback(int button, int action, int mods) {
+    if (action == GLFW_PRESS || action == GLFW_RELEASE) {
+        Key &active_key = *glfw_code_to_key.at(button);
+        std::cout << active_key.string_repr << std::endl;
+        bool is_pressed = (action == GLFW_PRESS);
+        active_key.pressed_signal.set_signal(is_pressed);
+    }
+}
