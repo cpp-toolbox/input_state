@@ -177,6 +177,9 @@ class InputState {
     InputState();
     ~InputState() = default;
 
+    void glfw_key_callback(int key, int scancode, int action, int mods);
+    void glfw_mouse_button_callback(int button, int action, int mods);
+
     bool is_just_pressed(EKey key_enum);
     bool is_pressed(EKey key_enum);
 
