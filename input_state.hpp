@@ -7,6 +7,8 @@
 #include <unordered_set>
 #include "sbpt_generated_includes.hpp"
 
+
+
 enum class KeyType {
     ALPHA,
     NUMERIC,
@@ -117,7 +119,9 @@ enum class EKey {
     TAB,
     BACKSPACE,
     INSERT,
-    DELETE,
+
+    // on windows DELETE is a macro in winnt.h so we must dodge this
+    DELETE_,
 
     RIGHT,
     LEFT,

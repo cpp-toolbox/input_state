@@ -278,7 +278,7 @@ InputState::InputState() {
     all_keys.emplace_back(EKey::TAB, KeyType::CONTROL, GLFW_KEY_TAB, "tab", false);
     all_keys.emplace_back(EKey::BACKSPACE, KeyType::CONTROL, GLFW_KEY_BACKSPACE, "backspace", false);
     all_keys.emplace_back(EKey::INSERT, KeyType::CONTROL, GLFW_KEY_INSERT, "insert", false);
-    all_keys.emplace_back(EKey::DELETE, KeyType::CONTROL, GLFW_KEY_DELETE, "delete", false);
+    all_keys.emplace_back(EKey::DELETE_, KeyType::CONTROL, GLFW_KEY_DELETE, "delete", false);
 
     all_keys.emplace_back(EKey::RIGHT, KeyType::CONTROL, GLFW_KEY_RIGHT, "right", false);
     all_keys.emplace_back(EKey::LEFT, KeyType::CONTROL, GLFW_KEY_LEFT, "left", false);
