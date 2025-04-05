@@ -343,7 +343,12 @@ InputState::InputState() {
 
 void InputState::glfw_key_callback(int key, int scancode, int action, int mods) {
     if (action == GLFW_PRESS || action == GLFW_RELEASE) {
-        Key &active_key = *glfw_code_to_key.at(key);
+        auto it = glfw_code_to_key.find(key);
+        if (it == glfw_code_to_key.end()) {
+            return; // Key not found, ignore
+        }
+
+        Key &active_key = *(it->second);
         bool is_pressed = (action == GLFW_PRESS);
         active_key.pressed_signal.set_signal(is_pressed);
     }
@@ -351,7 +356,12 @@ void InputState::glfw_key_callback(int key, int scancode, int action, int mods) 
 
 void InputState::glfw_mouse_button_callback(int button, int action, int mods) {
     if (action == GLFW_PRESS || action == GLFW_RELEASE) {
-        Key &active_key = *glfw_code_to_key.at(button);
+        auto it = glfw_code_to_key.find(button);
+        if (it == glfw_code_to_key.end()) {
+            return; // Button not found, ignore
+        }
+
+        Key &active_key = *(it->second);
         std::cout << active_key.string_repr << std::endl;
         bool is_pressed = (action == GLFW_PRESS);
         active_key.pressed_signal.set_signal(is_pressed);
