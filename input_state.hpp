@@ -7,8 +7,6 @@
 #include <unordered_set>
 #include "sbpt_generated_includes.hpp"
 
-
-
 enum class KeyType {
     ALPHA,
     NUMERIC,
@@ -193,6 +191,7 @@ class InputState {
     // pointers to the keys in all_keys
     std::unordered_map<EKey, Key *> key_enum_to_object;
     std::unordered_map<int, Key *> glfw_code_to_key;
+    std::unordered_map<std::string, EKey> key_str_to_key_enum;
 };
 
 #endif // INPUT_STATE

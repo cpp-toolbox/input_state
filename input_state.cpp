@@ -338,6 +338,10 @@ InputState::InputState() {
             // Insert the glfw_code to key_object mapping using pointer to store the reference
             this->glfw_code_to_key[key.glfw_code] = key_ptr;
         }
+        // Add this to build the key string -> enum map
+        assert(this->key_str_to_enum.find(key.key_str) == this->key_str_to_enum.end() &&
+               "Duplicate key string detected during construction!");
+        this->key_str_to_key_enum[key.string_repr] = key.key_enum;
     }
 }
 
