@@ -11,15 +11,19 @@ In order to integrate this into your system first initialize one of these somewh
 ```cpp
 InputState input_state;
 ```
-then inside of your key callback function (in this case glfw) you need to run this code:
+Then use the callbacks provided:
 ```cpp
-// these events happen once when the key is pressed down, aka its non-repeating; a one time event
-if (action == GLFW_PRESS || action == GLFW_RELEASE) {
-    Key &active_key = *input_state.glfw_code_to_key.at(key);
-    bool is_pressed = (action == GLFW_PRESS);
-    active_key.pressed_signal.set_signal(is_pressed);
-    ...
+    std::function<void(int, int, int, int)> key_callback = [&](int key, int scancode, int action, int mods) {
+        input_state.glfw_key_callback(key, scancode, action, mods);
+    };
+    std::function<void(double, double)> mouse_pos_callback = [&](double xpos, double ypos) {
+        input_state.glfw_cursor_pos_callback(xpos, ypos);
+    };
+    std::function<void(int, int, int)> mouse_button_callback = [&](int button, int action, int mods) {
+        input_state.glfw_mouse_button_callback(button, action, mods);
+    };
 ```
+
 note that since this system relies on `TemporalBinarySignal` you need to make this call once per tick
 ```cpp
 TemporalBinarySignal::process_all();
@@ -32,21 +36,4 @@ input_state.is_just_pressed(EKey::J)
 or to see if it's actively being pressed do: 
 ```cpp
 input_state.is_pressed(EKey::J)
-```
-
-If you want to get all keys that were just pressed this tick you can do this:
-```cpp
-std::vector<std::string> keys_just_pressed_this_tick;
-for (const auto &key : input_state.all_keys) {
-    bool char_is_printable =
-        key.key_type == KeyType::ALPHA or key.key_type == KeyType::SYMBOL or key.key_type == KeyType::NUMERIC;
-    if (char_is_printable and key.pressed_signal.is_just_on()) {
-        std::string key_str = key.string_repr;
-        if (key.shiftable and input_state.key_enum_to_object.at(EKey::LEFT_SHIFT)->pressed_signal.is_on()) {
-            Key shifted_key = *input_state.key_enum_to_object.at(key.key_enum_of_shifted_version);
-            key_str = shifted_key.string_repr;
-        }
-        keys_just_pressed_this_tick.push_back(key_str);
-    }
-}
 ```

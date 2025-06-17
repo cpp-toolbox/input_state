@@ -2,6 +2,7 @@
 #define INPUT_STATE
 
 #include <GLFW/glfw3.h>
+#include <string>
 #include <unordered_map>
 #include <set>
 #include <unordered_set>
@@ -177,6 +178,10 @@ class InputState {
 
     void glfw_key_callback(int key, int scancode, int action, int mods);
     void glfw_mouse_button_callback(int button, int action, int mods);
+    void glfw_cursor_pos_callback(double xpos, double ypos);
+
+    // NOTE: temporarily puttings these here for simplicity
+    double mouse_position_x = 0, mouse_position_y = 0;
 
     bool is_just_pressed(EKey key_enum);
     bool is_pressed(EKey key_enum);

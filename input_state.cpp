@@ -371,3 +371,8 @@ void InputState::glfw_mouse_button_callback(int button, int action, int mods) {
         active_key.pressed_signal.set_signal(is_pressed);
     }
 }
+
+void InputState::glfw_cursor_pos_callback(double xpos, double ypos) {
+    mouse_position_x = xpos;
+    mouse_position_y = ypos;
+}
