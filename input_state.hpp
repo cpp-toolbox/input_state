@@ -14,6 +14,7 @@ enum class KeyType {
     MODIFIER,
     CONTROL,
     SYMBOL,
+    MOUSE,
 };
 
 enum class EKey {
@@ -191,6 +192,10 @@ class InputState {
     std::string get_string_state();
     std::vector<std::string> get_keys_just_pressed_this_tick();
 
+    // TODO: this shouldn't be a member function, it's a static function
+    bool is_valid_key_string(const std::string &key_str) const;
+
+    // TODO: same here.
     std::vector<Key> all_keys;
     std::set<int> glfw_keycodes;
     // pointers to the keys in all_keys

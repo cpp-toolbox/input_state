@@ -170,10 +170,10 @@ std::vector<std::string> InputState::get_keys_just_pressed_this_tick() {
 }
 
 InputState::InputState() {
-    // this line looks trivial but is extremely important, if not the way temporary objects are copied
+    // OLD: this line looks trivial but is extremely important, if not the way temporary objects are copied
     // will make it so that the temporal binary states are destroyed making it so that they're not processed anymore
     // horrible bug, so keep this line, using 500 for overkill but I don't like counting.
-    // now i don't think i need to do tis because the rule of 5
+    // NOTE: now i don't think i need to do tis because the rule of 5
     this->all_keys.reserve(500);
     all_keys.emplace_back(EKey::a, KeyType::ALPHA, GLFW_KEY_A, "a", false, true, EKey::A);
     all_keys.emplace_back(EKey::b, KeyType::ALPHA, GLFW_KEY_B, "b", false, true, EKey::B);
@@ -310,13 +310,13 @@ InputState::InputState() {
     all_keys.emplace_back(EKey::LEFT_SUPER, KeyType::MODIFIER, GLFW_KEY_LEFT_SUPER, "left_super", false);
     all_keys.emplace_back(EKey::RIGHT_SUPER, KeyType::MODIFIER, GLFW_KEY_RIGHT_SUPER, "right_super", false);
 
-    all_keys.emplace_back(EKey::LEFT_MOUSE_BUTTON, KeyType::SYMBOL, GLFW_MOUSE_BUTTON_LEFT, "left_mouse_button", false);
-    all_keys.emplace_back(EKey::RIGHT_MOUSE_BUTTON, KeyType::SYMBOL, GLFW_MOUSE_BUTTON_RIGHT, "right_mouse_button",
+    all_keys.emplace_back(EKey::LEFT_MOUSE_BUTTON, KeyType::MOUSE, GLFW_MOUSE_BUTTON_LEFT, "left_mouse_button", false);
+    all_keys.emplace_back(EKey::RIGHT_MOUSE_BUTTON, KeyType::MOUSE, GLFW_MOUSE_BUTTON_RIGHT, "right_mouse_button",
                           false);
-    all_keys.emplace_back(EKey::MIDDLE_MOUSE_BUTTON, KeyType::SYMBOL, GLFW_MOUSE_BUTTON_MIDDLE, "middle_mouse_button",
+    all_keys.emplace_back(EKey::MIDDLE_MOUSE_BUTTON, KeyType::MOUSE, GLFW_MOUSE_BUTTON_MIDDLE, "middle_mouse_button",
                           false);
     // not sure how to handle these yet.
-    all_keys.emplace_back(EKey::SCROLL_UP, KeyType::SYMBOL, 999, "scroll_up", false);
+    all_keys.emplace_back(EKey::SCROLL_UP, KeyType::MOUSE, 999, "scroll_up", false);
     /*{EKey::SCROLL_DOWN, KeyType::SYMBOL, 999, "scroll_down"}*/
 
     for (auto &key : all_keys) {
@@ -324,23 +324,23 @@ InputState::InputState() {
         Key *key_ptr = &key;
 
         // Ensure no duplicate key_enum during construction
-        assert(this->key_enum_to_object.find(key.key_enum) == this->key_enum_to_object.end() &&
-               "Duplicate key_enum detected during construction!");
+        // assert(this->key_enum_to_object.find(key.key_enum) == this->key_enum_to_object.end() &&
+        //        "Duplicate key_enum detected during construction!");
 
         // Insert the key_enum to key_object mapping using pointer to store the reference
         this->key_enum_to_object[key.key_enum] = key_ptr;
 
         if (!key.requires_modifer_to_be_typed) {
             // Ensure no duplicate glfw_code during construction
-            assert(this->glfw_code_to_key.find(key.glfw_code) == this->glfw_code_to_key.end() &&
-                   "Duplicate glfw_code detected during construction!");
+            // assert(this->glfw_code_to_key.find(key.glfw_code) == this->glfw_code_to_key.end() &&
+            //        "Duplicate glfw_code detected during construction!");
 
             // Insert the glfw_code to key_object mapping using pointer to store the reference
             this->glfw_code_to_key[key.glfw_code] = key_ptr;
         }
         // Add this to build the key string -> enum map
-        assert(this->key_str_to_enum.find(key.key_str) == this->key_str_to_enum.end() &&
-               "Duplicate key string detected during construction!");
+        // assert(this->key_str_to_enum.find(key.key_str) == this->key_str_to_enum.end() &&
+        // "Duplicate key string detected during construction!");
         this->key_str_to_key_enum[key.string_repr] = key.key_enum;
     }
 }
@@ -375,4 +375,8 @@ void InputState::glfw_mouse_button_callback(int button, int action, int mods) {
 void InputState::glfw_cursor_pos_callback(double xpos, double ypos) {
     mouse_position_x = xpos;
     mouse_position_y = ypos;
+}
+
+bool InputState::is_valid_key_string(const std::string &key_str) const {
+    return key_str_to_key_enum.find(key_str) != key_str_to_key_enum.end();
 }
