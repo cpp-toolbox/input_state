@@ -1,7 +1,13 @@
 #ifndef INPUT_STATE
 #define INPUT_STATE
 
+// adding this line fixed the compliation error about
+// /home/ccn/.conan2/p/b/glad37084c3a036d2/p/include/glad/glad.h:27:2: error: #error OpenGL header already included,
+// remove this include, glad already provides it 27 | #error OpenGL header already included, remove this include, glad
+// already provides it
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
 #include <string>
 #include <unordered_map>
 #include <set>
