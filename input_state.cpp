@@ -366,7 +366,6 @@ void InputState::glfw_mouse_button_callback(int button, int action, int mods) {
         }
 
         Key &active_key = *(it->second);
-        std::cout << active_key.string_repr << std::endl;
         bool is_pressed = (action == GLFW_PRESS);
         active_key.pressed_signal.set_signal(is_pressed);
     }
