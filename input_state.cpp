@@ -372,8 +372,14 @@ void InputState::glfw_mouse_button_callback(int button, int action, int mods) {
 }
 
 void InputState::glfw_cursor_pos_callback(double xpos, double ypos) {
+    prev_mouse_position_x = mouse_position_x;
+    prev_mouse_position_y = mouse_position_y;
+
     mouse_position_x = xpos;
     mouse_position_y = ypos;
+
+    mouse_delta_x = mouse_position_x - prev_mouse_position_x;
+    mouse_delta_y = mouse_position_y - prev_mouse_position_y;
 }
 
 bool InputState::is_valid_key_string(const std::string &key_str) const {

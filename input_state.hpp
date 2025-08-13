@@ -189,6 +189,17 @@ class InputState {
 
     // NOTE: temporarily puttings these here for simplicity
     double mouse_position_x = 0, mouse_position_y = 0;
+    double prev_mouse_position_x = 0, prev_mouse_position_y = 0;
+    double mouse_delta_x = 0, mouse_delta_y = 0;
+
+    std::tuple<double, double> get_mouse_delta() {
+        std::tuple<double, double> tup = {mouse_delta_x, mouse_delta_y};
+        // reset once read
+        // TODO: a class with data that can only be used once or something.
+        mouse_delta_x = 0;
+        mouse_delta_y = 0;
+        return tup;
+    }
 
     bool is_just_pressed(EKey key_enum);
     bool is_pressed(EKey key_enum);
