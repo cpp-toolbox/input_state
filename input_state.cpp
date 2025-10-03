@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 /* https://toolbox.cuppajoeman.com/ascii_art/keyboard.html
  * ---------------------------------

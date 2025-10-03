@@ -171,10 +171,27 @@ class Key {
     KeyType key_type;
     int glfw_code;
     std::string string_repr;
-    bool requires_modifer_to_be_typed = true;
-    bool shiftable = false;
-    EKey key_enum_of_shifted_version = EKey::DUMMY;
+    bool requires_modifer_to_be_typed;
+    bool shiftable;
+    EKey key_enum_of_shifted_version;
     TemporalBinarySignal pressed_signal;
+
+    Key(EKey e,
+        KeyType t,
+        int code,
+        std::string repr,
+        bool requires_mod = true,
+        bool shift = false,
+        EKey shifted = EKey::DUMMY)
+        : key_enum(e),
+          key_type(t),
+          glfw_code(code),
+          string_repr(std::move(repr)),
+          requires_modifer_to_be_typed(requires_mod),
+          shiftable(shift),
+          key_enum_of_shifted_version(shifted) {}
+
+    Key() = default; // still allow default construction if needed
 };
 
 // the reason why we have this is so that we can query the entire keyboard and mouse state in a very simple way.
