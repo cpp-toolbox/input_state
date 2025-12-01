@@ -1,13 +1,6 @@
 #ifndef INPUT_STATE
 #define INPUT_STATE
 
-// adding this line fixed the compliation error about
-// /home/ccn/.conan2/p/b/glad37084c3a036d2/p/include/glad/glad.h:27:2: error: #error OpenGL header already included,
-// remove this include, glad already provides it 27 | #error OpenGL header already included, remove this include, glad
-// already provides it
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include <string>
 #include <unordered_map>
 #include <set>
@@ -169,40 +162,32 @@ class Key {
   public:
     EKey key_enum;
     KeyType key_type;
-    int glfw_code;
     std::string string_repr;
     bool requires_modifer_to_be_typed;
     bool shiftable;
     EKey key_enum_of_shifted_version;
+    // TODO: can we get rid of this?
     TemporalBinarySignal pressed_signal;
 
-    Key(EKey e,
-        KeyType t,
-        int code,
-        std::string repr,
-        bool requires_mod = true,
-        bool shift = false,
-        EKey shifted = EKey::DUMMY)
-        : key_enum(e),
-          key_type(t),
-          glfw_code(code),
-          string_repr(std::move(repr)),
-          requires_modifer_to_be_typed(requires_mod),
-          shiftable(shift),
-          key_enum_of_shifted_version(shifted) {}
+    Key(EKey e, KeyType t, std::string repr, bool requires_mod = true, bool shift = false, EKey shifted = EKey::DUMMY)
+        : key_enum(e), key_type(t), string_repr(std::move(repr)), requires_modifer_to_be_typed(requires_mod),
+          shiftable(shift), key_enum_of_shifted_version(shifted) {}
 
     Key() = default; // still allow default construction if needed
 };
-
-// the reason why we have this is so that we can query the entire keyboard and mouse state in a very simple way.
+/**
+ * @brief Represents the full state of keyboard and mouse input.
+ *
+ * This class provides a convenient way to query the entire keyboard and mouse state in a single location. It tracks
+ * mouse position, mouse movement deltas, key presses, and key states.
+ *
+ * @note this class is agnostic of the input system you use
+ *
+ */
 class InputState {
   public:
     InputState();
     ~InputState() = default;
-
-    void glfw_key_callback(int key, int scancode, int action, int mods);
-    void glfw_mouse_button_callback(int button, int action, int mods);
-    void glfw_cursor_pos_callback(double xpos, double ypos);
 
     // NOTE: temporarily puttings these here for simplicity
     double mouse_position_x = 0, mouse_position_y = 0;
@@ -233,8 +218,8 @@ class InputState {
     std::vector<Key> all_keys;
     std::set<int> glfw_keycodes;
     // pointers to the keys in all_keys
+    // TODO: make this hold a reference wrapper instead of a raw pointer when we have time
     std::unordered_map<EKey, Key *> key_enum_to_object;
-    std::unordered_map<int, Key *> glfw_code_to_key;
     std::unordered_map<std::string, EKey> key_str_to_key_enum;
 };
 
