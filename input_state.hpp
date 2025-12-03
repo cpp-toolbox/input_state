@@ -1,10 +1,11 @@
 #ifndef INPUT_STATE
 #define INPUT_STATE
 
+#include <set>
 #include <string>
 #include <unordered_map>
-#include <set>
-#include <unordered_set>
+#include <vector>
+
 #include "sbpt_generated_includes.hpp"
 
 enum class KeyType {
@@ -154,7 +155,8 @@ enum class EKey {
     SCROLL_UP,
     SCROLL_DOWN,
 
-    // the dummy is used as the "biggest value" so that we can iterate through this.
+    // the dummy is used as the "biggest value" so that we can iterate through
+    // this.
     DUMMY
 };
 
@@ -167,7 +169,7 @@ class Key {
     bool shiftable;
     EKey key_enum_of_shifted_version;
     // TODO: can we get rid of this?
-    TemporalBinarySignal pressed_signal;
+    TemporalBinarySwitch pressed_signal;
 
     Key(EKey e, KeyType t, std::string repr, bool requires_mod = true, bool shift = false, EKey shifted = EKey::DUMMY)
         : key_enum(e), key_type(t), string_repr(std::move(repr)), requires_modifer_to_be_typed(requires_mod),
@@ -178,8 +180,9 @@ class Key {
 /**
  * @brief Represents the full state of keyboard and mouse input.
  *
- * This class provides a convenient way to query the entire keyboard and mouse state in a single location. It tracks
- * mouse position, mouse movement deltas, key presses, and key states.
+ * This class provides a convenient way to query the entire keyboard and mouse
+ * state in a single location. It tracks mouse position, mouse movement deltas,
+ * key presses, and key states.
  *
  * @note this class is agnostic of the input system you use
  *
@@ -189,7 +192,7 @@ class InputState {
     InputState();
     ~InputState() = default;
 
-    // NOTE: temporarily puttings these here for simplicity
+    // NOTE: temporarily putting these here for simplicity
     double mouse_position_x = 0, mouse_position_y = 0;
     double prev_mouse_position_x = 0, prev_mouse_position_y = 0;
     double mouse_delta_x = 0, mouse_delta_y = 0;
@@ -203,12 +206,32 @@ class InputState {
         return tup;
     }
 
+    /**
+     * @warn must be called once per tick
+     */
+    void process() {
+        for (auto &key : all_keys) {
+            key.pressed_signal.process();
+        }
+    }
+
+    /*
+     * NOTE: these are disjoint events, it goes just pressed
+     */
     bool is_just_pressed(EKey key_enum);
+    // deprecated?
     bool is_pressed(EKey key_enum);
+    bool is_held(EKey key_enum);
+    bool is_just_released(EKey key_enum);
+
+    // TODO: these should respect the order in which things are pressed...
+    std::vector<EKey> get_just_pressed_keys();
+    std::vector<EKey> get_held_keys();
+    std::vector<EKey> get_just_released_keys();
 
     std::vector<std::string> get_just_pressed_key_strings();
 
-    std::string get_string_state();
+    std::string get_visual_keyboard_state();
     std::vector<std::string> get_keys_just_pressed_this_tick();
 
     // TODO: this shouldn't be a member function, it's a static function
@@ -218,7 +241,8 @@ class InputState {
     std::vector<Key> all_keys;
     std::set<int> glfw_keycodes;
     // pointers to the keys in all_keys
-    // TODO: make this hold a reference wrapper instead of a raw pointer when we have time
+    // TODO: make this hold a reference wrapper instead of a raw pointer when we
+    // have time
     std::unordered_map<EKey, Key *> key_enum_to_object;
     std::unordered_map<std::string, EKey> key_str_to_key_enum;
 };

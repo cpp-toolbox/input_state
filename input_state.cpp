@@ -85,7 +85,7 @@ std::unordered_map<std::string, EKey> keyboard_key_str_to_key_enum = {{"`", EKey
                                                                       {"mn", EKey::MENU_KEY},
                                                                       {"rc", EKey::RIGHT_CONTROL}};
 
-std::string InputState::get_string_state() {
+std::string InputState::get_visual_keyboard_state() {
     std::stringstream state_stream;
 
     // Create a copy of the keyboard to modify without changing the original one
@@ -101,9 +101,9 @@ std::string InputState::get_string_state() {
 
                 // If the key is just pressed, replace with the correct number of X's
                 if (is_just_pressed(key_enum)) {
-                    key = std::string(key.size(), '*'); // Replace with X's of the same length
+                    key = std::string(key.size(), '*'); // Replace with *'s of the same length
                 }
-                if (is_pressed(key_enum)) {
+                if (is_held(key_enum)) {
                     key = std::string(key.size(), 'X'); // Replace with X's of the same length
                 }
             }
@@ -128,12 +128,42 @@ std::string InputState::get_string_state() {
     return state_stream.str();
 }
 
+std::vector<EKey> InputState::get_just_pressed_keys() {
+    std::vector<EKey> keys_just_pressed_this_tick;
+    for (const auto &key : all_keys) {
+        if (key.pressed_signal.just_switched_on()) {
+            keys_just_pressed_this_tick.push_back(key.key_enum);
+        }
+    }
+    return keys_just_pressed_this_tick;
+}
+
+std::vector<EKey> InputState::get_held_keys() {
+    std::vector<EKey> keys_held_this_tick;
+    for (const auto &key : all_keys) {
+        if (key.pressed_signal.sustained_on()) {
+            keys_held_this_tick.push_back(key.key_enum);
+        }
+    }
+    return keys_held_this_tick;
+}
+
+std::vector<EKey> InputState::get_just_released_keys() {
+    std::vector<EKey> keys_just_released_this_tick;
+    for (const auto &key : all_keys) {
+        if (key.pressed_signal.just_switched_off()) {
+            keys_just_released_this_tick.push_back(key.key_enum);
+        }
+    }
+    return keys_just_released_this_tick;
+}
+
 std::vector<std::string> InputState::get_just_pressed_key_strings() {
     std::vector<std::string> keys_just_pressed_this_tick;
     for (const auto &key : all_keys) {
         bool char_is_printable =
             key.key_type == KeyType::ALPHA or key.key_type == KeyType::SYMBOL or key.key_type == KeyType::NUMERIC;
-        if (char_is_printable and key.pressed_signal.is_just_on()) {
+        if (char_is_printable and key.pressed_signal.just_switched_on()) {
             std::string key_str = key.string_repr;
             if (key.shiftable and key_enum_to_object.at(EKey::LEFT_SHIFT)->pressed_signal.is_on()) {
                 Key shifted_key = *key_enum_to_object.at(key.key_enum_of_shifted_version);
@@ -145,15 +175,22 @@ std::vector<std::string> InputState::get_just_pressed_key_strings() {
     return keys_just_pressed_this_tick;
 }
 
-bool InputState::is_just_pressed(EKey key_enum) { return key_enum_to_object.at(key_enum)->pressed_signal.is_just_on(); }
+bool InputState::is_just_pressed(EKey key_enum) {
+    return key_enum_to_object.at(key_enum)->pressed_signal.just_switched_on();
+}
 bool InputState::is_pressed(EKey key_enum) { return key_enum_to_object.at(key_enum)->pressed_signal.is_on(); }
+bool InputState::is_held(EKey key_enum) { return key_enum_to_object.at(key_enum)->pressed_signal.sustained_on(); }
+
+bool InputState::is_just_released(EKey key_enum) {
+    return key_enum_to_object.at(key_enum)->pressed_signal.just_switched_off();
+}
 
 std::vector<std::string> InputState::get_keys_just_pressed_this_tick() {
     std::vector<std::string> keys_just_pressed_this_tick;
     for (const auto &key : all_keys) {
         bool char_is_printable =
             key.key_type == KeyType::ALPHA or key.key_type == KeyType::SYMBOL or key.key_type == KeyType::NUMERIC;
-        if (char_is_printable and key.pressed_signal.is_just_on()) {
+        if (char_is_printable and key.pressed_signal.just_switched_on()) {
             std::string key_str = key.string_repr;
             bool shift_pressed = key_enum_to_object.at(EKey::LEFT_SHIFT)->pressed_signal.is_on() or
                                  key_enum_to_object.at(EKey::RIGHT_SHIFT)->pressed_signal.is_on();
