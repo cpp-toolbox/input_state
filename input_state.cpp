@@ -180,9 +180,12 @@ bool InputState::is_just_pressed(EKey key_enum) {
 }
 bool InputState::is_pressed(EKey key_enum) { return key_enum_to_object.at(key_enum)->pressed_signal.is_on(); }
 bool InputState::is_held(EKey key_enum) { return key_enum_to_object.at(key_enum)->pressed_signal.sustained_on(); }
-
 bool InputState::is_just_released(EKey key_enum) {
     return key_enum_to_object.at(key_enum)->pressed_signal.just_switched_off();
+}
+
+const TemporalBinarySwitch::State &InputState::get_current_state(EKey key_enum) {
+    return key_enum_to_object.at(key_enum)->pressed_signal.get_current_state();
 }
 
 std::vector<std::string> InputState::get_keys_just_pressed_this_tick() {

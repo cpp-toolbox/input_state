@@ -223,6 +223,7 @@ class InputState {
     bool is_pressed(EKey key_enum);
     bool is_held(EKey key_enum);
     bool is_just_released(EKey key_enum);
+    const TemporalBinarySwitch::State &get_current_state(EKey key_enum);
 
     // TODO: these should respect the order in which things are pressed...
     std::vector<EKey> get_just_pressed_keys();
