@@ -146,6 +146,7 @@ enum class EKey {
     LEFT_SUPER,
     RIGHT_SUPER,
 
+    // THE FUNCTION KEY ISN"T REAL, there's only FN+F1 or FN+F2, etc which are keys like brightness up etc...
     FUNCTION_KEY,
     MENU_KEY,
 
