@@ -146,8 +146,19 @@ enum class EKey {
     LEFT_SUPER,
     RIGHT_SUPER,
 
-    // THE FUNCTION KEY ISN"T REAL, there's only FN+F1 or FN+F2, etc which are keys like brightness up etc...
     FUNCTION_KEY,
+    F1,
+    F2,
+    F3,
+    F4,
+    F5,
+    F6,
+    F7,
+    F8,
+    F9,
+    F10,
+    F11,
+    F12,
     MENU_KEY,
 
     LEFT_MOUSE_BUTTON,
@@ -217,7 +228,8 @@ class InputState {
     }
 
     /*
-     * NOTE: these are disjoint events, it goes just pressed
+     * NOTE: just_pressed -> held -> just_released ->
+     * are disjoint events in time, where exactly one can only be true at once for a given input.
      */
     bool is_just_pressed(EKey key_enum);
     // deprecated?
