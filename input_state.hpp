@@ -177,15 +177,24 @@ class Key {
     EKey key_enum;
     KeyType key_type;
     std::string string_repr;
+    // this should be renamed to requires shift to be pressed or something because that's the only context I've seen
+    // this used so far.
     bool requires_modifer_to_be_typed;
+
+    // bool plus value means we can just use an optional in the future
     bool shiftable;
     EKey key_enum_of_shifted_version;
-    // TODO: can we get rid of this?
+
+    // I'm going to use DUMMY as nullopt here.
+    EKey key_enum_of_unshifted_version;
+
     TemporalBinarySwitch pressed_signal;
 
-    Key(EKey e, KeyType t, std::string repr, bool requires_mod = true, bool shift = false, EKey shifted = EKey::DUMMY)
+    Key(EKey e, KeyType t, std::string repr, bool requires_mod = true, bool shift = false, EKey shifted = EKey::DUMMY,
+        EKey key_enum_of_unshifted_version = EKey::DUMMY)
         : key_enum(e), key_type(t), string_repr(std::move(repr)), requires_modifer_to_be_typed(requires_mod),
-          shiftable(shift), key_enum_of_shifted_version(shifted) {}
+          shiftable(shift), key_enum_of_shifted_version(shifted),
+          key_enum_of_unshifted_version(key_enum_of_unshifted_version) {}
 
     Key() = default; // still allow default construction if needed
 };

@@ -359,36 +359,36 @@ InputState::InputState() {
     all_keys.emplace_back(EKey::y, KeyType::ALPHA, "y", false, true, EKey::Y);
     all_keys.emplace_back(EKey::z, KeyType::ALPHA, "z", false, true, EKey::Z);
 
-    all_keys.emplace_back(EKey::A, KeyType::ALPHA, "A");
-    all_keys.emplace_back(EKey::B, KeyType::ALPHA, "B");
-    all_keys.emplace_back(EKey::C, KeyType::ALPHA, "C");
-    all_keys.emplace_back(EKey::D, KeyType::ALPHA, "D");
-    all_keys.emplace_back(EKey::E, KeyType::ALPHA, "E");
-    all_keys.emplace_back(EKey::F, KeyType::ALPHA, "F");
-    all_keys.emplace_back(EKey::G, KeyType::ALPHA, "G");
-    all_keys.emplace_back(EKey::H, KeyType::ALPHA, "H");
-    all_keys.emplace_back(EKey::I, KeyType::ALPHA, "I");
-    all_keys.emplace_back(EKey::J, KeyType::ALPHA, "J");
-    all_keys.emplace_back(EKey::K, KeyType::ALPHA, "K");
-    all_keys.emplace_back(EKey::L, KeyType::ALPHA, "L");
-    all_keys.emplace_back(EKey::M, KeyType::ALPHA, "M");
-    all_keys.emplace_back(EKey::N, KeyType::ALPHA, "N");
-    all_keys.emplace_back(EKey::O, KeyType::ALPHA, "O");
-    all_keys.emplace_back(EKey::P, KeyType::ALPHA, "P");
-    all_keys.emplace_back(EKey::Q, KeyType::ALPHA, "Q");
-    all_keys.emplace_back(EKey::R, KeyType::ALPHA, "R");
-    all_keys.emplace_back(EKey::S, KeyType::ALPHA, "S");
-    all_keys.emplace_back(EKey::T, KeyType::ALPHA, "T");
-    all_keys.emplace_back(EKey::U, KeyType::ALPHA, "U");
-    all_keys.emplace_back(EKey::V, KeyType::ALPHA, "V");
-    all_keys.emplace_back(EKey::W, KeyType::ALPHA, "W");
-    all_keys.emplace_back(EKey::X, KeyType::ALPHA, "X");
-    all_keys.emplace_back(EKey::Y, KeyType::ALPHA, "Y");
-    all_keys.emplace_back(EKey::Z, KeyType::ALPHA, "Z");
+    all_keys.emplace_back(EKey::A, KeyType::ALPHA, "A", true, false, EKey::DUMMY, EKey::a);
+    all_keys.emplace_back(EKey::B, KeyType::ALPHA, "B", true, false, EKey::DUMMY, EKey::b);
+    all_keys.emplace_back(EKey::C, KeyType::ALPHA, "C", true, false, EKey::DUMMY, EKey::c);
+    all_keys.emplace_back(EKey::D, KeyType::ALPHA, "D", true, false, EKey::DUMMY, EKey::d);
+    all_keys.emplace_back(EKey::E, KeyType::ALPHA, "E", true, false, EKey::DUMMY, EKey::e);
+    all_keys.emplace_back(EKey::F, KeyType::ALPHA, "F", true, false, EKey::DUMMY, EKey::f);
+    all_keys.emplace_back(EKey::G, KeyType::ALPHA, "G", true, false, EKey::DUMMY, EKey::g);
+    all_keys.emplace_back(EKey::H, KeyType::ALPHA, "H", true, false, EKey::DUMMY, EKey::h);
+    all_keys.emplace_back(EKey::I, KeyType::ALPHA, "I", true, false, EKey::DUMMY, EKey::i);
+    all_keys.emplace_back(EKey::J, KeyType::ALPHA, "J", true, false, EKey::DUMMY, EKey::j);
+    all_keys.emplace_back(EKey::K, KeyType::ALPHA, "K", true, false, EKey::DUMMY, EKey::k);
+    all_keys.emplace_back(EKey::L, KeyType::ALPHA, "L", true, false, EKey::DUMMY, EKey::l);
+    all_keys.emplace_back(EKey::M, KeyType::ALPHA, "M", true, false, EKey::DUMMY, EKey::m);
+    all_keys.emplace_back(EKey::N, KeyType::ALPHA, "N", true, false, EKey::DUMMY, EKey::n);
+    all_keys.emplace_back(EKey::O, KeyType::ALPHA, "O", true, false, EKey::DUMMY, EKey::o);
+    all_keys.emplace_back(EKey::P, KeyType::ALPHA, "P", true, false, EKey::DUMMY, EKey::p);
+    all_keys.emplace_back(EKey::Q, KeyType::ALPHA, "Q", true, false, EKey::DUMMY, EKey::q);
+    all_keys.emplace_back(EKey::R, KeyType::ALPHA, "R", true, false, EKey::DUMMY, EKey::r);
+    all_keys.emplace_back(EKey::S, KeyType::ALPHA, "S", true, false, EKey::DUMMY, EKey::s);
+    all_keys.emplace_back(EKey::T, KeyType::ALPHA, "T", true, false, EKey::DUMMY, EKey::t);
+    all_keys.emplace_back(EKey::U, KeyType::ALPHA, "U", true, false, EKey::DUMMY, EKey::u);
+    all_keys.emplace_back(EKey::V, KeyType::ALPHA, "V", true, false, EKey::DUMMY, EKey::v);
+    all_keys.emplace_back(EKey::W, KeyType::ALPHA, "W", true, false, EKey::DUMMY, EKey::w);
+    all_keys.emplace_back(EKey::X, KeyType::ALPHA, "X", true, false, EKey::DUMMY, EKey::x);
+    all_keys.emplace_back(EKey::Y, KeyType::ALPHA, "Y", true, false, EKey::DUMMY, EKey::y);
+    all_keys.emplace_back(EKey::Z, KeyType::ALPHA, "Z", true, false, EKey::DUMMY, EKey::z);
 
     all_keys.emplace_back(EKey::SPACE, KeyType::SYMBOL, " ", false);
     all_keys.emplace_back(EKey::GRAVE_ACCENT, KeyType::SYMBOL, "`", false, true, EKey::TILDE);
-    all_keys.emplace_back(EKey::TILDE, KeyType::SYMBOL, "`");
+    all_keys.emplace_back(EKey::TILDE, KeyType::SYMBOL, "`", true, false, EKey::DUMMY, EKey::GRAVE_ACCENT);
 
     all_keys.emplace_back(EKey::ONE, KeyType::NUMERIC, "1", false, true, EKey::EXCLAMATION_POINT);
     all_keys.emplace_back(EKey::TWO, KeyType::NUMERIC, "2", false, true, EKey::AT_SIGN);
@@ -403,29 +403,31 @@ InputState::InputState() {
     all_keys.emplace_back(EKey::MINUS, KeyType::SYMBOL, "-", false, true, EKey::UNDERSCORE);
     all_keys.emplace_back(EKey::EQUAL, KeyType::SYMBOL, "=", false, true, EKey::PLUS);
 
-    all_keys.emplace_back(EKey::EXCLAMATION_POINT, KeyType::SYMBOL, "!");
-    all_keys.emplace_back(EKey::AT_SIGN, KeyType::SYMBOL, "@");
-    all_keys.emplace_back(EKey::NUMBER_SIGN, KeyType::SYMBOL, "#");
-    all_keys.emplace_back(EKey::DOLLAR_SIGN, KeyType::SYMBOL, "$");
-    all_keys.emplace_back(EKey::PERCENT_SIGN, KeyType::SYMBOL, "%");
-    all_keys.emplace_back(EKey::CARET, KeyType::SYMBOL, "^");
-    all_keys.emplace_back(EKey::AMPERSAND, KeyType::SYMBOL, "&");
-    all_keys.emplace_back(EKey::ASTERISK, KeyType::SYMBOL, "*");
-    all_keys.emplace_back(EKey::LEFT_PARENTHESIS, KeyType::SYMBOL, "(");
-    all_keys.emplace_back(EKey::RIGHT_PARENTHESIS, KeyType::SYMBOL, ")");
-    all_keys.emplace_back(EKey::UNDERSCORE, KeyType::SYMBOL, "_");
-    all_keys.emplace_back(EKey::PLUS, KeyType::SYMBOL, "+");
+    all_keys.emplace_back(EKey::EXCLAMATION_POINT, KeyType::SYMBOL, "!", true, false, EKey::DUMMY, EKey::ONE);
+    all_keys.emplace_back(EKey::AT_SIGN, KeyType::SYMBOL, "@", true, false, EKey::DUMMY, EKey::TWO);
+    all_keys.emplace_back(EKey::NUMBER_SIGN, KeyType::SYMBOL, "#", true, false, EKey::DUMMY, EKey::THREE);
+    all_keys.emplace_back(EKey::DOLLAR_SIGN, KeyType::SYMBOL, "$", true, false, EKey::DUMMY, EKey::FOUR);
+    all_keys.emplace_back(EKey::PERCENT_SIGN, KeyType::SYMBOL, "%", true, false, EKey::DUMMY, EKey::FIVE);
+    all_keys.emplace_back(EKey::CARET, KeyType::SYMBOL, "^", true, false, EKey::DUMMY, EKey::SIX);
+    all_keys.emplace_back(EKey::AMPERSAND, KeyType::SYMBOL, "&", true, false, EKey::DUMMY, EKey::SEVEN);
+    all_keys.emplace_back(EKey::ASTERISK, KeyType::SYMBOL, "*", true, false, EKey::DUMMY, EKey::EIGHT);
+    all_keys.emplace_back(EKey::LEFT_PARENTHESIS, KeyType::SYMBOL, "(", true, false, EKey::DUMMY, EKey::NINE);
+    all_keys.emplace_back(EKey::RIGHT_PARENTHESIS, KeyType::SYMBOL, ")", true, false, EKey::DUMMY, EKey::ZERO);
+    all_keys.emplace_back(EKey::UNDERSCORE, KeyType::SYMBOL, "_", true, false, EKey::DUMMY, EKey::MINUS);
+    all_keys.emplace_back(EKey::PLUS, KeyType::SYMBOL, "+", true, false, EKey::DUMMY, EKey::EQUAL);
 
     all_keys.emplace_back(EKey::LEFT_SQUARE_BRACKET, KeyType::SYMBOL, "[", false, true, EKey::LEFT_CURLY_BRACKET);
     all_keys.emplace_back(EKey::RIGHT_SQUARE_BRACKET, KeyType::SYMBOL, "]", false, true, EKey::RIGHT_CURLY_BRACKET);
 
-    all_keys.emplace_back(EKey::LEFT_CURLY_BRACKET, KeyType::SYMBOL, "{");
-    all_keys.emplace_back(EKey::RIGHT_CURLY_BRACKET, KeyType::SYMBOL, "}");
+    all_keys.emplace_back(EKey::LEFT_CURLY_BRACKET, KeyType::SYMBOL, "{", true, false, EKey::DUMMY,
+                          EKey::LEFT_SQUARE_BRACKET);
+    all_keys.emplace_back(EKey::RIGHT_CURLY_BRACKET, KeyType::SYMBOL, "}", true, false, EKey::DUMMY,
+                          EKey::RIGHT_SQUARE_BRACKET);
 
     all_keys.emplace_back(EKey::COMMA, KeyType::SYMBOL, ",", false, true, EKey::LESS_THAN);
     all_keys.emplace_back(EKey::PERIOD, KeyType::SYMBOL, ".", false, true, EKey::GREATER_THAN);
-    all_keys.emplace_back(EKey::LESS_THAN, KeyType::SYMBOL, "<");
-    all_keys.emplace_back(EKey::GREATER_THAN, KeyType::SYMBOL, ">");
+    all_keys.emplace_back(EKey::LESS_THAN, KeyType::SYMBOL, "<", true, false, EKey::DUMMY, EKey::COMMA);
+    all_keys.emplace_back(EKey::GREATER_THAN, KeyType::SYMBOL, ">", true, false, EKey::DUMMY, EKey::PERIOD);
 
     all_keys.emplace_back(EKey::CAPS_LOCK, KeyType::CONTROL, "caps_lock", false);
     all_keys.emplace_back(EKey::ESCAPE, KeyType::CONTROL, "escape", false);
@@ -441,16 +443,16 @@ InputState::InputState() {
     all_keys.emplace_back(EKey::DOWN, KeyType::CONTROL, "down", false);
 
     all_keys.emplace_back(EKey::SLASH, KeyType::SYMBOL, "/", false, true, EKey::QUESTION_MARK);
-    all_keys.emplace_back(EKey::QUESTION_MARK, KeyType::SYMBOL, "?");
+    all_keys.emplace_back(EKey::QUESTION_MARK, KeyType::SYMBOL, "?", true, false, EKey::DUMMY, EKey::SLASH);
 
     all_keys.emplace_back(EKey::BACKSLASH, KeyType::SYMBOL, "\\", false, true, EKey::PIPE);
-    all_keys.emplace_back(EKey::PIPE, KeyType::SYMBOL, "|");
+    all_keys.emplace_back(EKey::PIPE, KeyType::SYMBOL, "|", true, false, EKey::DUMMY, EKey::BACKSLASH);
 
     all_keys.emplace_back(EKey::SEMICOLON, KeyType::SYMBOL, ";", false, true, EKey::COLON);
-    all_keys.emplace_back(EKey::COLON, KeyType::SYMBOL, ":");
+    all_keys.emplace_back(EKey::COLON, KeyType::SYMBOL, ":", true, false, EKey::DUMMY, EKey::SEMICOLON);
 
     all_keys.emplace_back(EKey::SINGLE_QUOTE, KeyType::SYMBOL, "'", false, true, EKey::DOUBLE_QUOTE);
-    all_keys.emplace_back(EKey::DOUBLE_QUOTE, KeyType::SYMBOL, "\"");
+    all_keys.emplace_back(EKey::DOUBLE_QUOTE, KeyType::SYMBOL, "\"", true, false, EKey::DUMMY, EKey::SINGLE_QUOTE);
 
     all_keys.emplace_back(EKey::FUNCTION_KEY, KeyType::CONTROL, "function_key", true);
     all_keys.emplace_back(EKey::F1, KeyType::CONTROL, "f1", true);
