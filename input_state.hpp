@@ -249,4 +249,8 @@ class InputState {
     std::unordered_map<std::string, EKey> key_str_to_key_enum;
 };
 
+// data oriented approach:
+
+bool is_just_pressed(InputState *input_state, EKey key_enum);
+
 #endif // INPUT_STATE

@@ -364,3 +364,7 @@ InputState::InputState() {
         this->key_str_to_key_enum[key.string_repr] = key.key_enum;
     }
 }
+
+bool is_just_pressed(InputState *input_state, EKey key_enum) {
+    return input_state->key_enum_to_object.at(key_enum)->pressed_signal.just_switched_on();
+}
