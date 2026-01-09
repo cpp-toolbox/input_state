@@ -146,8 +146,19 @@ enum class EKey {
     LEFT_SUPER,
     RIGHT_SUPER,
 
-    // THE FUNCTION KEY ISN"T REAL, there's only FN+F1 or FN+F2, etc which are keys like brightness up etc...
     FUNCTION_KEY,
+    F1,
+    F2,
+    F3,
+    F4,
+    F5,
+    F6,
+    F7,
+    F8,
+    F9,
+    F10,
+    F11,
+    F12,
     MENU_KEY,
 
     LEFT_MOUSE_BUTTON,
@@ -166,15 +177,24 @@ class Key {
     EKey key_enum;
     KeyType key_type;
     std::string string_repr;
+    // this should be renamed to requires shift to be pressed or something because that's the only context I've seen
+    // this used so far.
     bool requires_modifer_to_be_typed;
+
+    // bool plus value means we can just use an optional in the future
     bool shiftable;
     EKey key_enum_of_shifted_version;
-    // TODO: can we get rid of this?
+
+    // I'm going to use DUMMY as nullopt here.
+    EKey key_enum_of_unshifted_version;
+
     TemporalBinarySwitch pressed_signal;
 
-    Key(EKey e, KeyType t, std::string repr, bool requires_mod = true, bool shift = false, EKey shifted = EKey::DUMMY)
+    Key(EKey e, KeyType t, std::string repr, bool requires_mod = true, bool shift = false, EKey shifted = EKey::DUMMY,
+        EKey key_enum_of_unshifted_version = EKey::DUMMY)
         : key_enum(e), key_type(t), string_repr(std::move(repr)), requires_modifer_to_be_typed(requires_mod),
-          shiftable(shift), key_enum_of_shifted_version(shifted) {}
+          shiftable(shift), key_enum_of_shifted_version(shifted),
+          key_enum_of_unshifted_version(key_enum_of_unshifted_version) {}
 
     Key() = default; // still allow default construction if needed
 };
@@ -217,7 +237,8 @@ class InputState {
     }
 
     /*
-     * NOTE: these are disjoint events, it goes just pressed
+     * NOTE: just_pressed -> held -> just_released ->
+     * are disjoint events in time, where exactly one can only be true at once for a given input.
      */
     bool is_just_pressed(EKey key_enum);
     // deprecated?

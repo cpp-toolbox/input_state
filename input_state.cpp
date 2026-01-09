@@ -5,113 +5,235 @@
 #include <sstream>
 
 /* https://toolbox.cuppajoeman.com/ascii_art/keyboard.html
- * ---------------------------------
- * |`|1|2|3|4|5|6|7|8|9|0|-|=|   bs|
- * |tb|q|w|e|r|t|y|u|i|o|p|[|]| \  |
- * |cps|a|s|d|f|g|h|j|k|l|;|'|  ent|
- * |shft|z|x|c|v|b|n|m|,|.|/|  shft|
- * |ct|sp|al|          |al|fn|mn|rc|
- * ---------------------------------
+ * -------------------------------------------------------------
+ * |esc|   |f1 |f2 |f3 |f4 | |f5 |f6 |f7 |f8 | |f9 |f10|f11|f12|
+ * | ` | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | - | = |backspa|
+ * |tab | q | w | e | r | t | y | u | i | o | p | [ | ] |  \   |
+ * |caps | a | s | d | f | g | h | j | k | l | ; | ' |    enter|
+ * |lshift | z | x | c | v | b | n | m | , | . | / |     rshift|
+ * |lctr|spec|lalt|                       |ralt| fn |menu|rctr |
+ * -------------------------------------------------------------
  */
 
+// used in function row
+const std::string three_space = "   ";
+const std::string one_space = " ";
+
+// Top row
+const std::string key_esc = "esc";
+const std::string key_f1 = "f1 ";
+const std::string key_f2 = "f2 ";
+const std::string key_f3 = "f3 ";
+const std::string key_f4 = "f4 ";
+const std::string key_f5 = "f5 ";
+const std::string key_f6 = "f6 ";
+const std::string key_f7 = "f7 ";
+const std::string key_f8 = "f8 ";
+const std::string key_f9 = "f9 ";
+const std::string key_f10 = "f10";
+const std::string key_f11 = "f11";
+const std::string key_f12 = "f12";
+
+// Number row
+const std::string key_grave = " ` ";
+const std::string key_1 = " 1 ";
+const std::string key_2 = " 2 ";
+const std::string key_3 = " 3 ";
+const std::string key_4 = " 4 ";
+const std::string key_5 = " 5 ";
+const std::string key_6 = " 6 ";
+const std::string key_7 = " 7 ";
+const std::string key_8 = " 8 ";
+const std::string key_9 = " 9 ";
+const std::string key_0 = " 0 ";
+const std::string key_minus = " - ";
+const std::string key_equal = " = ";
+const std::string key_backspace = "backspa";
+
+// QWERTY row
+const std::string key_tab = "tab ";
+const std::string key_q = " q ";
+const std::string key_w = " w ";
+const std::string key_e = " e ";
+const std::string key_r = " r ";
+const std::string key_t_ = " t "; // for some reason key_t was already defined somewhere
+const std::string key_y = " y ";
+const std::string key_u = " u ";
+const std::string key_i = " i ";
+const std::string key_o = " o ";
+const std::string key_p = " p ";
+const std::string key_left_bracket = " [ ";
+const std::string key_right_bracket = " ] ";
+const std::string key_backslash = "  \\   ";
+
+// Home row
+const std::string key_caps = "caps ";
+const std::string key_a = " a ";
+const std::string key_s = " s ";
+const std::string key_d = " d ";
+const std::string key_f = " f ";
+const std::string key_g = " g ";
+const std::string key_h = " h ";
+const std::string key_j = " j ";
+const std::string key_k = " k ";
+const std::string key_l = " l ";
+const std::string key_semicolon = " ; ";
+const std::string key_apostrophe = " ' ";
+const std::string key_enter = "    enter";
+
+// Bottom row
+const std::string key_lshift = "lshift ";
+const std::string key_z = " z ";
+const std::string key_x = " x ";
+const std::string key_c = " c ";
+const std::string key_v = " v ";
+const std::string key_b = " b ";
+const std::string key_n = " n ";
+const std::string key_m = " m ";
+const std::string key_comma = " , ";
+const std::string key_period = " . ";
+const std::string key_slash = " / ";
+const std::string key_rshift = "     rshift";
+
+// Modifier keys
+const std::string key_lctrl = "lctr";
+const std::string key_special = "spec"; // maybe Windows key or Command
+const std::string key_lalt = "lalt";
+const std::string key_space = "                       "; // center space bar
+const std::string key_ralt = "ralt";
+const std::string key_fn = " fn ";
+const std::string key_menu = "menu";
+const std::string key_rctrl = "rctr ";
+
 std::vector<std::vector<std::string>> keyboard = {
-    {"`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "   bs"},
-    {"tb", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", " \\  "},
-    {"cps", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "  ent"},
-    {"shft", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "  shft"},
-    {"ct", "sp", "al", "          ", "al", "fn", "mn", "rc"}};
+    // Function row
+    {key_esc, three_space, key_f1, key_f2, key_f3, key_f4, one_space, key_f5, key_f6, key_f7, key_f8, one_space, key_f9,
+     key_f10, key_f11, key_f12},
 
-std::unordered_map<std::string, EKey> keyboard_key_str_to_key_enum = {{"`", EKey::GRAVE_ACCENT},
-                                                                      {"1", EKey::ONE},
-                                                                      {"2", EKey::TWO},
-                                                                      {"3", EKey::THREE},
-                                                                      {"4", EKey::FOUR},
-                                                                      {"5", EKey::FIVE},
-                                                                      {"6", EKey::SIX},
-                                                                      {"7", EKey::SEVEN},
-                                                                      {"8", EKey::EIGHT},
-                                                                      {"9", EKey::NINE},
-                                                                      {"0", EKey::ZERO},
-                                                                      {"-", EKey::MINUS},
-                                                                      {"=", EKey::EQUAL},
-                                                                      {"   bs", EKey::BACKSPACE},
+    // Number row
+    {key_grave, key_1, key_2, key_3, key_4, key_5, key_6, key_7, key_8, key_9, key_0, key_minus, key_equal,
+     key_backspace},
 
-                                                                      {"tb", EKey::TAB},
-                                                                      {"q", EKey::q},
-                                                                      {"w", EKey::w},
-                                                                      {"e", EKey::e},
-                                                                      {"r", EKey::r},
-                                                                      {"t", EKey::t},
-                                                                      {"y", EKey::y},
-                                                                      {"u", EKey::u},
-                                                                      {"i", EKey::i},
-                                                                      {"o", EKey::o},
-                                                                      {"p", EKey::p},
-                                                                      {"[", EKey::LEFT_SQUARE_BRACKET},
-                                                                      {"]", EKey::RIGHT_SQUARE_BRACKET},
-                                                                      {" \\  ", EKey::BACKSLASH},
+    // QWERTY row
+    {key_tab, key_q, key_w, key_e, key_r, key_t_, key_y, key_u, key_i, key_o, key_p, key_left_bracket,
+     key_right_bracket, key_backslash},
 
-                                                                      {"cps", EKey::CAPS_LOCK},
-                                                                      {"a", EKey::a},
-                                                                      {"s", EKey::s},
-                                                                      {"d", EKey::d},
-                                                                      {"f", EKey::f},
-                                                                      {"g", EKey::g},
-                                                                      {"h", EKey::h},
-                                                                      {"j", EKey::j},
-                                                                      {"k", EKey::k},
-                                                                      {"l", EKey::l},
-                                                                      {";", EKey::SEMICOLON},
-                                                                      {"'", EKey::SINGLE_QUOTE},
-                                                                      {"  ent", EKey::ENTER},
-                                                                      {"shft", EKey::LEFT_SHIFT},
-                                                                      {"z", EKey::z},
-                                                                      {"x", EKey::x},
-                                                                      {"c", EKey::c},
-                                                                      {"v", EKey::v},
-                                                                      {"b", EKey::b},
-                                                                      {"n", EKey::n},
-                                                                      {"m", EKey::m},
-                                                                      {",", EKey::COMMA},
-                                                                      {".", EKey::PERIOD},
-                                                                      {"/", EKey::SLASH},
-                                                                      {"  shft", EKey::RIGHT_SHIFT},
-                                                                      {"ct", EKey::LEFT_CONTROL},
-                                                                      {"sp", EKey::LEFT_SUPER},
-                                                                      {"al", EKey::LEFT_ALT},
-                                                                      {"          ", EKey::SPACE},
-                                                                      {"al", EKey::RIGHT_ALT},
-                                                                      {"fn", EKey::FUNCTION_KEY},
-                                                                      {"mn", EKey::MENU_KEY},
-                                                                      {"rc", EKey::RIGHT_CONTROL}};
+    // Home row
+    {key_caps, key_a, key_s, key_d, key_f, key_g, key_h, key_j, key_k, key_l, key_semicolon, key_apostrophe, key_enter},
+
+    // Bottom row
+    {key_lshift, key_z, key_x, key_c, key_v, key_b, key_n, key_m, key_comma, key_period, key_slash, key_rshift},
+
+    // Modifier / space row
+    {key_lctrl, key_special, key_lalt, key_space, key_ralt, key_fn, key_menu, key_rctrl}};
+
+std::unordered_map<std::string, EKey> keyboard_key_str_to_key_enum = {
+
+    {key_esc, EKey::ESCAPE},
+    {key_f1, EKey::F1},
+    {key_f2, EKey::F2},
+    {key_f3, EKey::F3},
+    {key_f4, EKey::F4},
+    {key_f5, EKey::F5},
+    {key_f6, EKey::F6},
+    {key_f7, EKey::F7},
+    {key_f8, EKey::F8},
+    {key_f9, EKey::F9},
+    {key_f10, EKey::F10},
+    {key_f11, EKey::F11},
+    {key_f12, EKey::F12},
+
+    {key_grave, EKey::GRAVE_ACCENT},
+    {key_1, EKey::ONE},
+    {key_2, EKey::TWO},
+    {key_3, EKey::THREE},
+    {key_4, EKey::FOUR},
+    {key_5, EKey::FIVE},
+    {key_6, EKey::SIX},
+    {key_7, EKey::SEVEN},
+    {key_8, EKey::EIGHT},
+    {key_9, EKey::NINE},
+    {key_0, EKey::ZERO},
+    {key_minus, EKey::MINUS},
+    {key_equal, EKey::EQUAL},
+    {key_backspace, EKey::BACKSPACE},
+
+    {key_tab, EKey::TAB},
+    {key_q, EKey::q},
+    {key_w, EKey::w},
+    {key_e, EKey::e},
+    {key_r, EKey::r},
+    {key_t_, EKey::t},
+    {key_y, EKey::y},
+    {key_u, EKey::u},
+    {key_i, EKey::i},
+    {key_o, EKey::o},
+    {key_p, EKey::p},
+    {key_left_bracket, EKey::LEFT_SQUARE_BRACKET},
+    {key_right_bracket, EKey::RIGHT_SQUARE_BRACKET},
+    {key_backslash, EKey::BACKSLASH},
+
+    {key_caps, EKey::CAPS_LOCK},
+    {key_a, EKey::a},
+    {key_s, EKey::s},
+    {key_d, EKey::d},
+    {key_f, EKey::f},
+    {key_g, EKey::g},
+    {key_h, EKey::h},
+    {key_j, EKey::j},
+    {key_k, EKey::k},
+    {key_l, EKey::l},
+    {key_semicolon, EKey::SEMICOLON},
+    {key_apostrophe, EKey::SINGLE_QUOTE},
+    {key_enter, EKey::ENTER},
+
+    {key_lshift, EKey::LEFT_SHIFT},
+    {key_z, EKey::z},
+    {key_x, EKey::x},
+    {key_c, EKey::c},
+    {key_v, EKey::v},
+    {key_b, EKey::b},
+    {key_n, EKey::n},
+    {key_m, EKey::m},
+    {key_comma, EKey::COMMA},
+    {key_period, EKey::PERIOD},
+    {key_slash, EKey::SLASH},
+    {key_rshift, EKey::RIGHT_SHIFT},
+
+    {key_lctrl, EKey::LEFT_CONTROL},
+    {key_special, EKey::LEFT_SUPER},
+    {key_lalt, EKey::LEFT_ALT},
+    {key_space, EKey::SPACE},
+    {key_ralt, EKey::RIGHT_ALT},
+    {key_fn, EKey::FUNCTION_KEY},
+    {key_menu, EKey::MENU_KEY},
+    {key_rctrl, EKey::RIGHT_CONTROL}};
 
 std::string InputState::get_visual_keyboard_state() {
     std::stringstream state_stream;
 
-    // Create a copy of the keyboard to modify without changing the original one
+    // create a copy of the keyboard to modify without changing the original one
     auto modified_keyboard = keyboard;
 
-    // Iterate over all keys in the keyboard
     for (auto &row : modified_keyboard) {
         for (auto &key : row) {
-            // Check if the key has a corresponding enum value
+            // check if the key has a corresponding enum value
             auto key_enum_iter = keyboard_key_str_to_key_enum.find(key);
             if (key_enum_iter != keyboard_key_str_to_key_enum.end()) {
                 EKey key_enum = key_enum_iter->second;
 
-                // If the key is just pressed, replace with the correct number of X's
+                // if the key is just pressed, replace with the correct number of x's
                 if (is_just_pressed(key_enum)) {
-                    key = std::string(key.size(), '*'); // Replace with *'s of the same length
+                    key = std::string(key.size(), '*'); // replace with *'s of the same length
                 }
                 if (is_held(key_enum)) {
-                    key = std::string(key.size(), 'X'); // Replace with X's of the same length
+                    key = std::string(key.size(), 'X'); // replace with X's of the same length
                 }
             }
         }
     }
 
-    // Construct the state string (instead of printing)
-    state_stream << "---------------------------------" << std::endl;
+    state_stream << "-------------------------------------------------------------" << std::endl;
     for (const auto &row : modified_keyboard) {
         for (const auto &key : row) {
             // Ensure alignment of output
@@ -119,12 +241,8 @@ std::string InputState::get_visual_keyboard_state() {
         }
         state_stream << "|" << std::endl;
     }
-    state_stream << "---------------------------------" << std::endl;
+    state_stream << "-------------------------------------------------------------" << std::endl;
 
-    // Return the state string
-    state_stream << "State updated." << std::endl;
-
-    // Return the constructed state string
     return state_stream.str();
 }
 
@@ -241,36 +359,36 @@ InputState::InputState() {
     all_keys.emplace_back(EKey::y, KeyType::ALPHA, "y", false, true, EKey::Y);
     all_keys.emplace_back(EKey::z, KeyType::ALPHA, "z", false, true, EKey::Z);
 
-    all_keys.emplace_back(EKey::A, KeyType::ALPHA, "A");
-    all_keys.emplace_back(EKey::B, KeyType::ALPHA, "B");
-    all_keys.emplace_back(EKey::C, KeyType::ALPHA, "C");
-    all_keys.emplace_back(EKey::D, KeyType::ALPHA, "D");
-    all_keys.emplace_back(EKey::E, KeyType::ALPHA, "E");
-    all_keys.emplace_back(EKey::F, KeyType::ALPHA, "F");
-    all_keys.emplace_back(EKey::G, KeyType::ALPHA, "G");
-    all_keys.emplace_back(EKey::H, KeyType::ALPHA, "H");
-    all_keys.emplace_back(EKey::I, KeyType::ALPHA, "I");
-    all_keys.emplace_back(EKey::J, KeyType::ALPHA, "J");
-    all_keys.emplace_back(EKey::K, KeyType::ALPHA, "K");
-    all_keys.emplace_back(EKey::L, KeyType::ALPHA, "L");
-    all_keys.emplace_back(EKey::M, KeyType::ALPHA, "M");
-    all_keys.emplace_back(EKey::N, KeyType::ALPHA, "N");
-    all_keys.emplace_back(EKey::O, KeyType::ALPHA, "O");
-    all_keys.emplace_back(EKey::P, KeyType::ALPHA, "P");
-    all_keys.emplace_back(EKey::Q, KeyType::ALPHA, "Q");
-    all_keys.emplace_back(EKey::R, KeyType::ALPHA, "R");
-    all_keys.emplace_back(EKey::S, KeyType::ALPHA, "S");
-    all_keys.emplace_back(EKey::T, KeyType::ALPHA, "T");
-    all_keys.emplace_back(EKey::U, KeyType::ALPHA, "U");
-    all_keys.emplace_back(EKey::V, KeyType::ALPHA, "V");
-    all_keys.emplace_back(EKey::W, KeyType::ALPHA, "W");
-    all_keys.emplace_back(EKey::X, KeyType::ALPHA, "X");
-    all_keys.emplace_back(EKey::Y, KeyType::ALPHA, "Y");
-    all_keys.emplace_back(EKey::Z, KeyType::ALPHA, "Z");
+    all_keys.emplace_back(EKey::A, KeyType::ALPHA, "A", true, false, EKey::DUMMY, EKey::a);
+    all_keys.emplace_back(EKey::B, KeyType::ALPHA, "B", true, false, EKey::DUMMY, EKey::b);
+    all_keys.emplace_back(EKey::C, KeyType::ALPHA, "C", true, false, EKey::DUMMY, EKey::c);
+    all_keys.emplace_back(EKey::D, KeyType::ALPHA, "D", true, false, EKey::DUMMY, EKey::d);
+    all_keys.emplace_back(EKey::E, KeyType::ALPHA, "E", true, false, EKey::DUMMY, EKey::e);
+    all_keys.emplace_back(EKey::F, KeyType::ALPHA, "F", true, false, EKey::DUMMY, EKey::f);
+    all_keys.emplace_back(EKey::G, KeyType::ALPHA, "G", true, false, EKey::DUMMY, EKey::g);
+    all_keys.emplace_back(EKey::H, KeyType::ALPHA, "H", true, false, EKey::DUMMY, EKey::h);
+    all_keys.emplace_back(EKey::I, KeyType::ALPHA, "I", true, false, EKey::DUMMY, EKey::i);
+    all_keys.emplace_back(EKey::J, KeyType::ALPHA, "J", true, false, EKey::DUMMY, EKey::j);
+    all_keys.emplace_back(EKey::K, KeyType::ALPHA, "K", true, false, EKey::DUMMY, EKey::k);
+    all_keys.emplace_back(EKey::L, KeyType::ALPHA, "L", true, false, EKey::DUMMY, EKey::l);
+    all_keys.emplace_back(EKey::M, KeyType::ALPHA, "M", true, false, EKey::DUMMY, EKey::m);
+    all_keys.emplace_back(EKey::N, KeyType::ALPHA, "N", true, false, EKey::DUMMY, EKey::n);
+    all_keys.emplace_back(EKey::O, KeyType::ALPHA, "O", true, false, EKey::DUMMY, EKey::o);
+    all_keys.emplace_back(EKey::P, KeyType::ALPHA, "P", true, false, EKey::DUMMY, EKey::p);
+    all_keys.emplace_back(EKey::Q, KeyType::ALPHA, "Q", true, false, EKey::DUMMY, EKey::q);
+    all_keys.emplace_back(EKey::R, KeyType::ALPHA, "R", true, false, EKey::DUMMY, EKey::r);
+    all_keys.emplace_back(EKey::S, KeyType::ALPHA, "S", true, false, EKey::DUMMY, EKey::s);
+    all_keys.emplace_back(EKey::T, KeyType::ALPHA, "T", true, false, EKey::DUMMY, EKey::t);
+    all_keys.emplace_back(EKey::U, KeyType::ALPHA, "U", true, false, EKey::DUMMY, EKey::u);
+    all_keys.emplace_back(EKey::V, KeyType::ALPHA, "V", true, false, EKey::DUMMY, EKey::v);
+    all_keys.emplace_back(EKey::W, KeyType::ALPHA, "W", true, false, EKey::DUMMY, EKey::w);
+    all_keys.emplace_back(EKey::X, KeyType::ALPHA, "X", true, false, EKey::DUMMY, EKey::x);
+    all_keys.emplace_back(EKey::Y, KeyType::ALPHA, "Y", true, false, EKey::DUMMY, EKey::y);
+    all_keys.emplace_back(EKey::Z, KeyType::ALPHA, "Z", true, false, EKey::DUMMY, EKey::z);
 
     all_keys.emplace_back(EKey::SPACE, KeyType::SYMBOL, " ", false);
     all_keys.emplace_back(EKey::GRAVE_ACCENT, KeyType::SYMBOL, "`", false, true, EKey::TILDE);
-    all_keys.emplace_back(EKey::TILDE, KeyType::SYMBOL, "`");
+    all_keys.emplace_back(EKey::TILDE, KeyType::SYMBOL, "`", true, false, EKey::DUMMY, EKey::GRAVE_ACCENT);
 
     all_keys.emplace_back(EKey::ONE, KeyType::NUMERIC, "1", false, true, EKey::EXCLAMATION_POINT);
     all_keys.emplace_back(EKey::TWO, KeyType::NUMERIC, "2", false, true, EKey::AT_SIGN);
@@ -285,29 +403,31 @@ InputState::InputState() {
     all_keys.emplace_back(EKey::MINUS, KeyType::SYMBOL, "-", false, true, EKey::UNDERSCORE);
     all_keys.emplace_back(EKey::EQUAL, KeyType::SYMBOL, "=", false, true, EKey::PLUS);
 
-    all_keys.emplace_back(EKey::EXCLAMATION_POINT, KeyType::SYMBOL, "!");
-    all_keys.emplace_back(EKey::AT_SIGN, KeyType::SYMBOL, "@");
-    all_keys.emplace_back(EKey::NUMBER_SIGN, KeyType::SYMBOL, "#");
-    all_keys.emplace_back(EKey::DOLLAR_SIGN, KeyType::SYMBOL, "$");
-    all_keys.emplace_back(EKey::PERCENT_SIGN, KeyType::SYMBOL, "%");
-    all_keys.emplace_back(EKey::CARET, KeyType::SYMBOL, "^");
-    all_keys.emplace_back(EKey::AMPERSAND, KeyType::SYMBOL, "&");
-    all_keys.emplace_back(EKey::ASTERISK, KeyType::SYMBOL, "*");
-    all_keys.emplace_back(EKey::LEFT_PARENTHESIS, KeyType::SYMBOL, "(");
-    all_keys.emplace_back(EKey::RIGHT_PARENTHESIS, KeyType::SYMBOL, ")");
-    all_keys.emplace_back(EKey::UNDERSCORE, KeyType::SYMBOL, "_");
-    all_keys.emplace_back(EKey::PLUS, KeyType::SYMBOL, "+");
+    all_keys.emplace_back(EKey::EXCLAMATION_POINT, KeyType::SYMBOL, "!", true, false, EKey::DUMMY, EKey::ONE);
+    all_keys.emplace_back(EKey::AT_SIGN, KeyType::SYMBOL, "@", true, false, EKey::DUMMY, EKey::TWO);
+    all_keys.emplace_back(EKey::NUMBER_SIGN, KeyType::SYMBOL, "#", true, false, EKey::DUMMY, EKey::THREE);
+    all_keys.emplace_back(EKey::DOLLAR_SIGN, KeyType::SYMBOL, "$", true, false, EKey::DUMMY, EKey::FOUR);
+    all_keys.emplace_back(EKey::PERCENT_SIGN, KeyType::SYMBOL, "%", true, false, EKey::DUMMY, EKey::FIVE);
+    all_keys.emplace_back(EKey::CARET, KeyType::SYMBOL, "^", true, false, EKey::DUMMY, EKey::SIX);
+    all_keys.emplace_back(EKey::AMPERSAND, KeyType::SYMBOL, "&", true, false, EKey::DUMMY, EKey::SEVEN);
+    all_keys.emplace_back(EKey::ASTERISK, KeyType::SYMBOL, "*", true, false, EKey::DUMMY, EKey::EIGHT);
+    all_keys.emplace_back(EKey::LEFT_PARENTHESIS, KeyType::SYMBOL, "(", true, false, EKey::DUMMY, EKey::NINE);
+    all_keys.emplace_back(EKey::RIGHT_PARENTHESIS, KeyType::SYMBOL, ")", true, false, EKey::DUMMY, EKey::ZERO);
+    all_keys.emplace_back(EKey::UNDERSCORE, KeyType::SYMBOL, "_", true, false, EKey::DUMMY, EKey::MINUS);
+    all_keys.emplace_back(EKey::PLUS, KeyType::SYMBOL, "+", true, false, EKey::DUMMY, EKey::EQUAL);
 
     all_keys.emplace_back(EKey::LEFT_SQUARE_BRACKET, KeyType::SYMBOL, "[", false, true, EKey::LEFT_CURLY_BRACKET);
     all_keys.emplace_back(EKey::RIGHT_SQUARE_BRACKET, KeyType::SYMBOL, "]", false, true, EKey::RIGHT_CURLY_BRACKET);
 
-    all_keys.emplace_back(EKey::LEFT_CURLY_BRACKET, KeyType::SYMBOL, "{");
-    all_keys.emplace_back(EKey::RIGHT_CURLY_BRACKET, KeyType::SYMBOL, "}");
+    all_keys.emplace_back(EKey::LEFT_CURLY_BRACKET, KeyType::SYMBOL, "{", true, false, EKey::DUMMY,
+                          EKey::LEFT_SQUARE_BRACKET);
+    all_keys.emplace_back(EKey::RIGHT_CURLY_BRACKET, KeyType::SYMBOL, "}", true, false, EKey::DUMMY,
+                          EKey::RIGHT_SQUARE_BRACKET);
 
     all_keys.emplace_back(EKey::COMMA, KeyType::SYMBOL, ",", false, true, EKey::LESS_THAN);
     all_keys.emplace_back(EKey::PERIOD, KeyType::SYMBOL, ".", false, true, EKey::GREATER_THAN);
-    all_keys.emplace_back(EKey::LESS_THAN, KeyType::SYMBOL, "<");
-    all_keys.emplace_back(EKey::GREATER_THAN, KeyType::SYMBOL, ">");
+    all_keys.emplace_back(EKey::LESS_THAN, KeyType::SYMBOL, "<", true, false, EKey::DUMMY, EKey::COMMA);
+    all_keys.emplace_back(EKey::GREATER_THAN, KeyType::SYMBOL, ">", true, false, EKey::DUMMY, EKey::PERIOD);
 
     all_keys.emplace_back(EKey::CAPS_LOCK, KeyType::CONTROL, "caps_lock", false);
     all_keys.emplace_back(EKey::ESCAPE, KeyType::CONTROL, "escape", false);
@@ -323,18 +443,30 @@ InputState::InputState() {
     all_keys.emplace_back(EKey::DOWN, KeyType::CONTROL, "down", false);
 
     all_keys.emplace_back(EKey::SLASH, KeyType::SYMBOL, "/", false, true, EKey::QUESTION_MARK);
-    all_keys.emplace_back(EKey::QUESTION_MARK, KeyType::SYMBOL, "?");
+    all_keys.emplace_back(EKey::QUESTION_MARK, KeyType::SYMBOL, "?", true, false, EKey::DUMMY, EKey::SLASH);
 
     all_keys.emplace_back(EKey::BACKSLASH, KeyType::SYMBOL, "\\", false, true, EKey::PIPE);
-    all_keys.emplace_back(EKey::PIPE, KeyType::SYMBOL, "|");
+    all_keys.emplace_back(EKey::PIPE, KeyType::SYMBOL, "|", true, false, EKey::DUMMY, EKey::BACKSLASH);
 
     all_keys.emplace_back(EKey::SEMICOLON, KeyType::SYMBOL, ";", false, true, EKey::COLON);
-    all_keys.emplace_back(EKey::COLON, KeyType::SYMBOL, ":");
+    all_keys.emplace_back(EKey::COLON, KeyType::SYMBOL, ":", true, false, EKey::DUMMY, EKey::SEMICOLON);
 
     all_keys.emplace_back(EKey::SINGLE_QUOTE, KeyType::SYMBOL, "'", false, true, EKey::DOUBLE_QUOTE);
-    all_keys.emplace_back(EKey::DOUBLE_QUOTE, KeyType::SYMBOL, "\"");
+    all_keys.emplace_back(EKey::DOUBLE_QUOTE, KeyType::SYMBOL, "\"", true, false, EKey::DUMMY, EKey::SINGLE_QUOTE);
 
     all_keys.emplace_back(EKey::FUNCTION_KEY, KeyType::CONTROL, "function_key", true);
+    all_keys.emplace_back(EKey::F1, KeyType::CONTROL, "f1", true);
+    all_keys.emplace_back(EKey::F2, KeyType::CONTROL, "f2", true);
+    all_keys.emplace_back(EKey::F3, KeyType::CONTROL, "f3", true);
+    all_keys.emplace_back(EKey::F4, KeyType::CONTROL, "f4", true);
+    all_keys.emplace_back(EKey::F5, KeyType::CONTROL, "f5", true);
+    all_keys.emplace_back(EKey::F6, KeyType::CONTROL, "f6", true);
+    all_keys.emplace_back(EKey::F7, KeyType::CONTROL, "f7", true);
+    all_keys.emplace_back(EKey::F8, KeyType::CONTROL, "f8", true);
+    all_keys.emplace_back(EKey::F9, KeyType::CONTROL, "f9", true);
+    all_keys.emplace_back(EKey::F10, KeyType::CONTROL, "f10", true);
+    all_keys.emplace_back(EKey::F11, KeyType::CONTROL, "f11", true);
+    all_keys.emplace_back(EKey::F12, KeyType::CONTROL, "f12", true);
     all_keys.emplace_back(EKey::MENU_KEY, KeyType::CONTROL, "menu_key", true);
 
     all_keys.emplace_back(EKey::LEFT_SHIFT, KeyType::MODIFIER, "left_shift", false);
